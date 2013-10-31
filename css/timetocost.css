@@ -1,0 +1,134 @@
+/* CSS timetocost v0.2
+* Autor: Tobias Schlömer
+*/
+
+body {
+	background-color: rgba(255,0,0,0);
+	background-image: url('../images/TimeToCostBG.png');
+}
+
+.form{
+	width: 300px;
+	height: 450px;
+}
+
+.counterbg {
+	background-color: rgba(255,0,0,0);
+	background-image: url('../images/CounterBG.png');
+}
+
+.runningtime {
+	margin-top: 30px;
+	width: 300px;
+	font-family: Arial;
+	font-size: 36px;
+	color: #FBCA69;
+	text-shadow: 0px 1px 2px rgba(0,0,0,0.50);
+	background-color: rgba(255,0,0,0);
+	background-color: transparent;
+	background-image: url('../images/tp.png');
+	border: 0px;
+	border: none;
+}
+
+.runningcost {
+	margin-top: 10px;
+	font-family: Arial;
+	font-weight: bold;
+	font-size: 48px;
+	color: #FFE7C1;
+	text-shadow: 0px 1px 3px rgba(0,0,0,0.50);
+	background-color: rgba(255,0,0,0);
+	background-color: transparent;
+	background-image: url('../images/tp.png');
+	border: 0px;
+	border: none;
+}
+
+.currency {
+	margin-top: 30px;
+	width: 20px;
+	font-family: Arial;
+	font-size: 24px;
+	color: #FFE7C1;
+	text-shadow: 0px 1px 3px rgba(0,0,0,0.50);
+	background-color: rgba(255,0,0,0);
+	background-color: transparent;
+	background-image: url('../images/tp.png');
+	border: 0px;
+	border: none;
+}
+
+.dev_lable {
+	font-size:10px
+}
+
+.input_attendants{
+	margin-top: 75px;
+	margin-right: 25px;
+	font-size: 10px;
+	font-weight: bold;
+	width: 50px;
+	padding: 6px;
+	border: 0px;
+	border: none;
+	background-color: #303030;
+	color: #FFFFFF;
+}
+
+.input_rate{
+	margin-top: 75px;
+	margin-right: 5px;
+	font-size: 10px;
+	font-weight: bold;
+	width: 50px;
+	padding: 6px;
+	border: 0px;
+	border: none;
+	background-color: #303030;
+	color: #FFFFFF;
+}
+
+.input_currency{
+	margin-top: 77px;
+	font-size: 14px;
+	font-weight: bold;
+	width: 40px;
+	line-height: 1;
+	border: 0px;
+	border: none;
+	background-color: #303030;
+	color: #FFFFFF;
+}
+
+.output {
+	font-size: 12px;
+	font-weight: bold;
+	width: 125px;
+	padding: 6px;
+	border: 0px;
+	border: none;
+	background-color: #606060;
+	color: #FFFFFF;
+}
+
+.onebutton {
+	margin-top: 40px;
+	font-size: 32px;
+	font-family: Arial;
+	font-weight: bold;
+	width: 100px;
+	height: 100px;
+	padding: 10px;
+	border: 0px;
+	border: none;
+	vertical-align: middle;
+	background-color: rgba(255,0,0,0);
+	background-color: transparent;
+	background-image: url('../images/tp.png');
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+
+

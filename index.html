@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="text">
+
+<title>Sitzungskostenticker</title>
+
+<link href="css/carton.css" rel="stylesheet"  type="text/css">
+<!--[if lt IE 8]><link href="css/ie7ie6_carton.css" rel="stylesheet" type="text/css"><![endif]-->
+<link href="css/timetocost.css" rel="stylesheet"  type="text/css">
+
+<script language="JavaScript">
+ 
+<!--
+ 
+var timercount = 0;
+var timestart  = null;
+var mousedowntimer=0;
+var mouseisdown=false;
+var onebuttonstate=0;
+
+
+function StartTimer(){
+	onebuttonstate=1; //set status of singular button
+	document.counter_form.onebutton.value = "Stop";
+	then = new Date(); // needed for calculating the cost from milliseconds passing
+	rate = document.counter_form.rate.value; // read hourly rate from html form field
+	attendants = document.counter_form.attendants.value; // read number of attendants from html form field
+	ratesecond = rate/60/60; //calculate rate per second from hourly rate
+	var startdate = new Date(); //set the startdate for showing timestamp
+	//document.counter_form.starttimearea.value = startdate.toDateString().substring(8,10) + ". " +  startdate.toDateString().substring(4,7) + " " + startdate.toDateString().substring(11) + ", " +  startdate.toTimeString().substring(0,5); // write startdate timestamp to html form field
+	if(!timercount){
+	timestart   = new Date();
+	timercount  = setTimeout("ShowTimer()", 1000);
+	}
+	else{
+	var timeend = new Date();
+		var timedifference = timeend.getTime() - timestart.getTime();
+		timeend.setTime(timedifference);
+		
+		var hours_passed = timeend.getHours()-1;
+		if(hours_passed < 10){
+			hours_passed = "0" + hours_passed;
+		}
+		var minutes_passed = timeend.getMinutes();
+		if(minutes_passed < 10){
+			minutes_passed = "0" + minutes_passed;
+		}
+		var seconds_passed = timeend.getSeconds();
+		if(seconds_passed < 10){
+			seconds_passed = "0" + seconds_passed;
+		}
+	}
+}
+ 
+function ShowTimer() {
+	if(timercount) {
+		clearTimeout(timercount);
+	}
+	if(!timestart){
+		timestart = new Date();
+	}
+	var timeend = new Date();
+	var timedifference = timeend.getTime() - timestart.getTime();
+	timeend.setTime(timedifference);
+	
+	var hours_passed = timeend.getHours()-1;
+	if(hours_passed < 10){
+		hours_passed = "0" + hours_passed;
+	}
+	var minutes_passed = timeend.getMinutes();
+	if(minutes_passed < 10){
+		minutes_passed = "0" + minutes_passed;
+	}
+	var seconds_passed = timeend.getSeconds();
+	if(seconds_passed < 10){
+		seconds_passed = "0" + seconds_passed;
+	}
+	document.counter_form.timetextarea.value = hours_passed + ":" + minutes_passed + ":" + seconds_passed;
+	timercount = setTimeout("ShowTimer()", 1000);
+	TimeToCost();
+}
+
+//TS Function TimeToCost get the starttime from var 
+function TimeToCost() { //convert time (in milliseconds) to cost
+	var millisecondsthen = then.getTime(); //get startdate in milliseconds
+	var now = new Date(); //set the current date for calculating difference
+	var millisecondsnow = now.getTime(); //get current date in milliseconds
+	var millisecondsgoneby = millisecondsnow - millisecondsthen; //calculate milliseconds in between startdate and current date
+	var cost = millisecondsgoneby/1000*ratesecond*attendants; //calculate current costs from elapsed time (in milliseconds), rate and attendants
+	document.counter_form.costtextarea.value = cost.toFixed(2) + " €"; // write cost to html form field with 2 decimals
+}
+
+function StopTimer() {
+	if(timercount) {
+		clearTimeout(timercount);
+		timercount  = 0;
+		var timeend = new Date();
+		var timedifference = timeend.getTime() - timestart.getTime();
+		timeend.setTime(timedifference);
+		
+		var hours_passed = timeend.getHours()-1;
+		if(hours_passed < 10){
+			hours_passed = "0" + hours_passed;
+		}
+		var minutes_passed = timeend.getMinutes();
+		if(minutes_passed < 10){
+			minutes_passed = "0" + minutes_passed;
+		}
+		var seconds_passed = timeend.getSeconds();
+		if(seconds_passed < 10){
+			seconds_passed = "0" + seconds_passed;
+		}
+		var stopdate = new Date();
+		document.counter_form.timetextarea.value = hours_passed + ":" + minutes_passed + ":" + seconds_passed; // write stoptime to html form-field
+		//document.counter_form.endtimearea.value = stopdate.toDateString().substring(8,10) + ". " +  stopdate.toDateString().substring(4,7) + " " + stopdate.toDateString().substring(11) + ", " +  stopdate.toTimeString().substring(0,5); // write stopdate timestamp to html form field
+	}
+	timestart = null; //reset timestart variable
+	onebuttonstate=0; //reset status of singular button
+	document.counter_form.onebutton.value = "Set";
+}
+ 
+function ResetTimer() { //reset timer
+	timestart = null; //reset timestart variable
+	document.counter_form.timetextarea.value = "00:00:00"; //reset running time
+	document.counter_form.costtextarea.value = "0.00" + " €"; //reset running cost
+	//document.counter_form.starttimearea.value = ""; //reset start timestamp
+	//document.counter_form.endtimearea.value = ""; //reset stop timestamp
+}
+
+
+//TS Function OneButtoMouseDown, register mouse.down event
+function OneButtonMouseDown(){
+	mouseisdown=true;
+	IncrementMouseDownTimer();
+}
+
+//TS Function IncrementMouseDownTimer, count time since mousedown and call ResetTimer function
+function IncrementMouseDownTimer(){
+	if (mousedowntimer>=2){
+		ResetTimer();
+		document.counter_form.onebutton.value = "Start";
+	}
+	if(mouseisdown==true){
+		mousedowntimer++;
+		setTimeout('IncrementMouseDownTimer()',1000);
+	}
+}
+
+//TS Function OneButtonMouseUp, register mouse.up event and call appropriate function
+function OneButtonMouseUp(){
+	mouseisdown=false;
+	if(mousedowntimer<2){
+		if(onebuttonstate==0){
+			StartTimer();
+		}
+		else{
+			StopTimer();
+		}
+	}
+	mousedowntimer=0;
+}
+
+
+//-->
+ 
+</script>
+
+
+</head>
+
+<body class="_alignCenter">
+
+<div class="_cell" style="width:300px;">
+<div class="_cell" style="width:300px;"></div>
+<form name="counter_form" class="_cell counterbg form">
+<input name="attendants" type="text" value="Teilnehmerzahl" class="_slim _alignCenter input_attendants">
+<input name="rate" type="text" value="Stundensatz" class="_slim _alignCenter input_rate"> 
+<!--<input name="currency" type="text" value="€" class="_slim _alignCenter input_currency">-->
+<!--<select class="_slim _alignCenter input_currency">
+  <option value="1">€</option>
+  <option value="2">$</option>
+  <option value="3">£</option>
+  <option value="4">¥</option>
+</select>-->
+<br>
+<br>
+<input type=text name="timetextarea" value="00:00:00" class="_stretch _alignCenter runningtime">
+<br>
+<input type=text size="5" name="costtextarea" value="0.00 €" class="_slim _alignCenter runningcost">
+<br>
+<br>
+<input type=button name="onebutton" value="Start" onmousedown="OneButtonMouseDown();" onmouseup="OneButtonMouseUp();" class="_slim _alignCenter onebutton">
+<br>
+<br>
+<!--<input name="starttimearea" type="text" value="Sitzungsstart" class="_stretch _alignCenter output">
+<br>
+<br>
+<input name="endtimearea" type="text" value="Sitzungsende" class="_stretch _alignCenter output">-->
+</form>
+<div class="_cell" style="width:300px;"></div>
+</div>
+
+</body>
+</html>
